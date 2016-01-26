@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link href="font.css" rel="stylesheet" type="text/css" ></link>
+<link href="webchargen.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="painter.js"></script>
+<script type="text/javascript" src="settings.js"></script>
+<script type="text/javascript" src="webchargen.js"></script>
+</head>
+<body>
+	<div id="loading-screen"><div id="loading-text">Loading...</div></div>
+	
+	<div id="canvas-container">
+		<canvas id="tempCanvas1" width="43" height="43"></canvas>
+		<canvas id="tempCanvas2" width="43" height="43"></canvas>
+		<canvas id="tempCanvas3" width="43" height="43"></canvas>
+		<canvas id="tempCanvas4" width="43" height="43"></canvas>
+		<canvas id="tempCanvas5" width="43" height="43"></canvas>
+		<canvas id="tempCanvas7" width="43" height="43"></canvas>
+		<canvas id="tempCanvas8" width="43" height="43"></canvas>
+		<canvas id="tempCanvas9" width="43" height="43"></canvas>
+		<canvas id="tempCanvas10" width="43" height="43"></canvas>
+		<canvas id="tempCanvas11" width="43" height="43"></canvas>
+		<canvas id="tempCanvas6" width="43" height="43"></canvas>
+	</div>
+	
+	<div id="pos-container">
+	<div id="main-container">
+        <div id="species-select-container">
+            <div class="big-button species-selection" id="species-human">
+                <div></div>
+            </div>
+            <div class="big-button species-selection" id="species-avian">
+                <div></div>
+            </div>
+            <div class="big-button species-selection" id="species-apex">
+                <div></div>
+            </div>
+            <div class="big-button species-selection" id="species-floran">
+                <div></div>
+            </div>
+            <div class="big-button species-selection" id="species-hylotl">
+                <div></div>
+            </div>
+            <div class="big-button species-selection" id="species-robot">
+                <div></div>
+            </div>
+			<div class="big-button species-selection" id="species-novakid">
+                <div></div>
+            </div>
+        </div>
+        <div id="gender-select-container">
+            <div class="big-button gender-selection" id="gender-male">
+            	<div></div>
+            </div>
+            <div class="big-button gender-selection" id="gender-female">
+            	<div></div>
+            </div>
+        </div>
+        <canvas id="character-preview" height="129" width="129"></canvas>
+        <div id="button-randomize-look" class="dice"></div>
+        <div id="character-options-container">
+        
+            <div id="variable-skinColor" class="option">
+				<div class="label" ></div>
+				<div class="option-buttons">
+					<div class="left-button button" ></div>
+					<div class="option-counter">
+						<div></div>
+						<div></div>
+					</div>
+					<div class="right-button button" ></div>
+				</div>
+            </div>
+			<div id="variable-altOption" class="option">
+                <div class="label" ></div>
+				<div class="option-buttons">
+					<div class="left-button button" ></div>
+					<div class="option-counter">
+						<div></div>
+						<div></div>
+					</div>
+					<div class="right-button button" ></div>
+				</div>
+            </div>
+            <div id="variable-hairOption" class="option">
+				<div class="label" ></div>
+				<div class="option-buttons">
+					<div class="left-button button" ></div>
+					<div class="option-counter">
+						<div></div>
+						<div></div>
+					</div>
+					<div class="right-button button" ></div>
+				</div>
+            </div>
+			<div id="variable-headOption" class="option">
+                <div class="label" ></div>
+				<div class="option-buttons">
+					<div class="left-button button" ></div>
+					<div class="option-counter">
+						<div></div>
+						<div></div>
+					</div>
+					<div class="right-button button" ></div>
+				</div>
+            </div>
+            <div id="variable-shirtOption" class="option">
+                <div class="label" ></div>
+				<div class="option-buttons">
+					<div class="left-button button" ></div>
+					<div class="option-counter">
+						<div></div>
+						<div></div>
+					</div>
+					<div class="right-button button" ></div>
+				</div>
+            </div>
+			<div id="variable-shirtColor" class="option">
+                <div class="label" ></div>
+				<div class="option-buttons">
+					<div class="left-button button" ></div>
+					<div class="option-counter">
+						<div></div>
+						<div></div>
+					</div>
+					<div class="right-button button" ></div>
+				</div>
+            </div>
+			<div id="variable-pantsOption" class="option">
+                <div class="label" ></div>
+				<div class="option-buttons">
+					<div class="left-button button" ></div>
+					<div class="option-counter">
+						<div></div>
+						<div></div>
+					</div>
+					<div class="right-button button" ></div>
+				</div>
+            </div>
+			<div id="variable-pantsColor" class="option">
+                <div class="label" ></div>
+				<div class="option-buttons">
+					<div class="left-button button" ></div>
+					<div class="option-counter">
+						<div></div>
+						<div></div>
+					</div>
+					<div class="right-button button" ></div>
+				</div>
+            </div>
+			<div id="variable-poseOption" class="option">
+                <div class="label" ></div>
+				<div class="option-buttons">
+					<div class="left-button button" ></div>
+					<div class="option-counter">
+						<div></div>
+						<div></div>
+					</div>
+					<div class="right-button button" ></div>
+				</div>
+            </div>
+ 			<div id="variable-helmetOption" class="option">
+                <div class="label" ></div>
+				<div class="option-buttons">
+					<div class="left-button button" ></div>
+					<div class="option-counter">
+						<div></div>
+						<div></div>
+					</div>
+					<div class="right-button button" ></div>
+				</div>
+            </div>
+       </div>
+        
+        <div id="nameLabel">
+        	<input type="text" id="nameInput" />
+        </div>
+        
+        <div id="save-button" class="save-button"></div>
+    </div>
+	</div>
+</body>
+</html>

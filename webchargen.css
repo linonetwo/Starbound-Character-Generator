@@ -1,0 +1,380 @@
+*
+{
+	/*outline: 1px solid gray;*/
+}
+
+/* GENERIC */
+	body
+	{
+		background-color: #121212;
+		overflow: hidden;
+		font-family: '04b03';
+	}
+	
+	*
+	{
+		-moz-user-select: -moz-none;
+	}
+	
+	#canvas-container
+	{
+		display: none;
+	}
+	
+	#pos-container
+	{
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		margin-top: -236px;
+		margin-left: -236px;
+		height: 472px;
+		width: 472px;
+	}
+		
+	
+	#main-container
+	{
+		background-image: url(images/charactercreation.png);
+		height: 472px;
+		width: 472px;
+		position: relative;
+	}
+
+/* BUTTONS */
+	.button:hover
+	{
+		cursor: pointer;
+	}
+	
+	.big-button
+	{
+		cursor: pointer;
+		padding: 0;
+		height: 58px;
+		width: 60px;
+		background-image: url(images/button.png);
+		display: inline-block;
+		margin-top: -11px;
+		margin-left: -16px;
+		margin-right: -4px;
+		background-position: -5px -5px;
+		background-repeat: no-repeat;
+		margin-bottom: 5px;
+	}
+
+	.big-button:hover
+	{
+		background-position: -5px -63px;
+	}
+	
+	.big-button:active
+	{
+	}
+	
+	.big-button.selected
+	{
+		margin-top: -15px;
+		margin-left: -20px;
+		margin-right: 0px;
+		background-position: 0px -116px;
+	}
+	
+	.big-button.selected>div
+	{
+		margin-left: 4px;
+		margin-top: 4px;
+	}
+	
+	.big-button.selected:hover
+	{
+		background-position: 0px -174px;
+	}
+	
+	#save-button
+	{
+		position: absolute;
+		width: 172px;
+		height: 28px;
+		
+		background-image: url(images/createcharacter.png);
+		
+		margin-left: -86px;
+		left: 50%;
+		top: 432px;
+	}
+	
+	#save-button:hover
+	{
+		background-position: 0px -28px;
+	}
+	
+	
+/* SPECIES BOX */
+	#species-select-container
+	{
+		position: absolute;
+		top: 91px;
+		left: 53px;
+		width: 200px;
+	}
+	
+	#species-select-container > .species-selection > div
+	{
+		display: inline-block;
+		width: 50px;
+		height: 48px;
+		background-image: url(images/speciesPortrait.png);
+		background-repeat: no-repeat;
+	}
+	
+	#species-select-container > #species-human > div
+	{
+		background-position: 0px 0px;
+	}
+	
+	#species-select-container > #species-avian > div
+	{
+		background-position: -50px 0px;
+	}
+	
+	#species-select-container > #species-apex > div
+	{
+		background-position: -100px 0px;
+	}
+	
+	#species-select-container > #species-floran > div
+	{
+		background-position: 0px -48px;
+	}
+	
+	#species-select-container > #species-hylotl > div
+	{
+		background-position: -50px -48px;
+	}
+	
+	#species-select-container > #species-robot > div
+	{
+		background-position: -100px -48px;
+	}
+	
+	#species-select-container > #species-novakid > div
+	{
+		background-position: 0px -96px;
+	}
+	
+/* GENDER BOX */
+	#gender-select-container {
+		position: absolute;
+		top: 203px;
+		left: 92px;
+	}
+
+    #gender-select-container .big-button {
+        margin-right: 0px;
+    }
+    
+    #gender-select-container .big-button.selected {
+        margin-right: 4px;
+    }
+    
+    #gender-select-container > .gender-selection > div
+    {
+    	width: 50px;
+    	height: 48px;
+    	display: inline-block;
+    	background-image: url(images/genderIcons.png);
+    	background-repeat: no-repeat;
+    	background-position: 0px 0px;
+    }
+    
+    #gender-select-container > #gender-female.gender-selection > div
+    {
+    	background-position: -50px 0px;
+    }
+    
+    #gender-male.selected > div, #gender-female.selected > div
+    {
+        margin-left: 4px;
+        margin-top: 4px;
+    }
+
+/* RANDOMIZE BUTTON */
+	#button-randomize-look
+	{
+		position: absolute;
+		cursor: pointer;
+		height: 36px;
+		width: 38px;
+		top: 207px;
+		right: 68px;
+	}
+	
+	.dice
+	{
+		background-image: url(images/dice.png);
+		background-repeat: no-repeat;
+	}
+	
+	.dice:hover
+	{
+		background-position: 0px -36px;
+	}
+
+/* CANVAS */
+	#character-preview
+	{
+		position: absolute;
+		right: 72px;
+		top: 75px;
+	}
+
+/* OPTIONS BOX */
+	#character-options-container
+	{
+		position: absolute;
+		left: 35px;
+		top: 256px;
+		width: 400px;
+		height: 100px;
+	}
+
+	.option
+	{	
+		margin-bottom: 6px;
+		height: 18px;
+		width: 195px;
+		display: inline-block;
+		white-space: nowrap;
+		font-size: 0px;
+	}
+	
+	.label
+	{
+		display: inline-block;
+		width: 135px;
+		height: 18px;
+		background-position: center;
+		background-repeat: no-repeat;
+	}
+	
+	#variable-helmetOption
+	{
+		display: none;
+	}
+	
+	.option-buttons
+	{
+		display: inline-block;
+	}
+	
+	.left-button, .right-button
+	{
+		display: inline-block;
+		height: 18px;
+		width: 16px;
+		background-image: url(images/pickButtons.png);
+		background-repeat: no-repeat;
+		background-position: 0px 0px;
+	}
+	
+	.left-button
+	{
+	}
+	
+	.left-button:hover
+	{
+		background-position: 0px -18px;
+	}
+	
+	.right-button
+	{
+		background-position: -16px 0px;
+	}
+	
+	.right-button:hover
+	{
+		background-position: -16px -18px;
+	}
+	
+	.option-counter
+	{
+		margin: 0px 3px;
+		display: inline-block;
+	}
+	
+	.option-counter div 
+	{
+		display: inline-block;
+		width: 8px;
+		height: 18px;
+		margin: 0px 1px;
+		background-image: url(images/text/numbers.png);
+		background-repeat: no-repeat;
+		background-position: 0px 0px;
+	}
+	
+/* NAME LABEL */
+	#nameLabel
+	{
+		position: absolute;
+		top: 389px;
+		left: 85px;
+		background-image: url(images/nameLabel.png);
+		background-repeat: no-repeat;
+		background-position: 0px 0px;
+		width: 302px;
+		height: 22px;
+	}
+	
+	#nameInput
+	{
+		position: absolute;
+		left: 50px;
+		top: 0px;
+		width: 244px;
+		height: 16px;
+		background-color: transparent;
+		border: none;
+		border: 2px solid #939393;
+		border-radius: 0px;
+		
+		color: white;
+		font-family: '04b03';
+		font-size: 18px;
+		padding: 1px 2px;
+	}
+	
+	#nameInput:active, #nameInput:focus
+	{
+		border: 2px solid #ddd;
+		outline: none;
+	}
+
+/* LOADING SCREEN */
+	#loading-screen
+	{
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		z-index: 1000;
+		background-color: #121212;
+		opacity: 0.8;
+		overflow: hidden;
+	}
+	
+	#loading-text
+	{
+		width: 300px;
+		height: 30px;
+		position: fixed;
+		top: 50%;
+		left: 50%;
+		margin-left: -150px;
+		margin-top: -15px;
+		text-align: center;
+		font-size: 30px;
+		color: white;
+	}
