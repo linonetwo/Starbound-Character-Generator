@@ -15,57 +15,52 @@ export class Painter {
   }
 
   repaint(config, currentSettings, imageInfo) {
-    console.log('Painting sprite with ' + Object.keys(config).length + ', ' + currentSettings.toString());
+    console.log(`Painting sprite with ${Object.keys(config).length}, ${currentSettings.toString()}`);
 
     // Clean up old gunk
     this.CONTEXT.clearRect(0, 0, this.SPRITE_SIZE * this.PREVIEW_MULTI, this.SPRITE_SIZE * this.PREVIEW_MULTI);
 
     // For typing convenience!
-    var speciesVars = config.species[currentSettings.species].variables;
-    var armorVars = config.species[currentSettings.species].armors;
+    const speciesVars = config.species[currentSettings.species].variables;
+    const armorVars = config.species[currentSettings.species].armors;
 
     // Determine the four sheets we need - head, body parts, shirt and pants
-    var headSheet = imageInfo[currentSettings.species + '-head-' + currentSettings.gender];
-    var bodySheet = imageInfo[currentSettings.species + '-body-' + currentSettings.gender];
-    var accessorySheet = imageInfo[currentSettings.species + '-body-accessory'];
-    var frontArmSheet = imageInfo[currentSettings.species + '-body-frontArm'];
-    var backArmSheet = imageInfo[currentSettings.species + '-body-backArm'];
+    const headSheet = imageInfo[`${currentSettings.species}-head-${currentSettings.gender}`];
+    const bodySheet = imageInfo[`${currentSettings.species}-body-${currentSettings.gender}`];
+    const accessorySheet = imageInfo[`${currentSettings.species}-body-accessory`];
+    const frontArmSheet = imageInfo[`${currentSettings.species}-body-frontArm`];
+    const backArmSheet = imageInfo[`${currentSettings.species}-body-backArm`];
 
-    var shirtArmorSheet, pantsArmorSheet, frontSleeveSheet, backSleeveSheet, helmetArmorSheet, helmetMaskSheet;
-    var shirtArmorName = config.species[currentSettings.species].armors.names[currentSettings.shirtOption];
-    var pantsArmorName = config.species[currentSettings.species].armors.names[currentSettings.pantsOption];
+    let shirtArmorSheet, pantsArmorSheet, frontSleeveSheet, backSleeveSheet, helmetArmorSheet, helmetMaskSheet;
+    const shirtArmorName = config.species[currentSettings.species].armors.names[currentSettings.shirtOption];
+    const pantsArmorName = config.species[currentSettings.species].armors.names[currentSettings.pantsOption];
 
-    if (shirtArmorName == 'extra') {
-      shirtArmorSheet = imageInfo['extra-' + currentSettings.gender + 'Chest'];
+    if (shirtArmorName === 'extra') {
+      shirtArmorSheet = imageInfo[`extra-${currentSettings.gender}Chest`];
       frontSleeveSheet = imageInfo['extra-frontSleeve'];
       backSleeveSheet = imageInfo['extra-backSleeve'];
     } else {
-      shirtArmorSheet =
-        imageInfo[currentSettings.species + '-armor-' + shirtArmorName + '-' + currentSettings.gender + 'Chest'];
-      frontSleeveSheet = imageInfo[currentSettings.species + '-armor-' + shirtArmorName + '-frontSleeve'];
-      backSleeveSheet = imageInfo[currentSettings.species + '-armor-' + shirtArmorName + '-backSleeve'];
+      shirtArmorSheet = imageInfo[`${currentSettings.species}-armor-${shirtArmorName}-${currentSettings.gender}Chest`];
+      frontSleeveSheet = imageInfo[`${currentSettings.species}-armor-${shirtArmorName}-frontSleeve`];
+      backSleeveSheet = imageInfo[`${currentSettings.species}-armor-${shirtArmorName}-backSleeve`];
     }
 
-    if (pantsArmorName == 'extra') pantsArmorSheet = imageInfo['extra-' + currentSettings.gender + 'Pants'];
-    else
-      pantsArmorSheet =
-        imageInfo[currentSettings.species + '-armor-' + pantsArmorName + '-' + currentSettings.gender + 'Pants'];
+    if (pantsArmorName === 'extra') pantsArmorSheet = imageInfo[`extra-${currentSettings.gender}Pants`];
+    else pantsArmorSheet = imageInfo[`${currentSettings.species}-armor-${pantsArmorName}-${currentSettings.gender}Pants`];
 
-    if (config.extraArmorColor != null && currentSettings.helmetOption != currentSettings.helmetOptionMax) {
+    if (config.extraArmorColor != null && currentSettings.helmetOption !== currentSettings.helmetOptionMax) {
       helmetArmorSheet = imageInfo['extra-helmet'];
       helmetMaskSheet = imageInfo['extra-mask'];
     }
 
     // Which palette swaps should be used varies with species, set them up here
-    var bodyPalettes, hairPalette, shirtPalette, pantsPalette, helmetPalette;
-
-    bodyPalettes = new Array(speciesVars.colors.skinColor[currentSettings.skinColor]);
+    let bodyPalettes = [speciesVars.colors.skinColor[currentSettings.skinColor]];
     if (speciesVars.altOptionAsUndyColor)
       bodyPalettes = bodyPalettes.concat(speciesVars.colors.undyColor[currentSettings.altOption]);
     if (speciesVars.hairColorAsBodySubColor)
       bodyPalettes = bodyPalettes.concat(speciesVars.colors.hairColor[currentSettings.headOption]);
 
-    hairPalette = new Array();
+    let hairPalette = [];
     if (speciesVars.headOptionAsHairColor)
       hairPalette = hairPalette.concat(speciesVars.colors.hairColor[currentSettings.headOption]);
     else hairPalette = hairPalette.concat(bodyPalettes);
@@ -74,27 +69,30 @@ export class Painter {
       hairPalette = hairPalette.concat(speciesVars.colors.undyColor[currentSettings.altOption]);
 
     // Select the armor palettes to use, only one per
-    if (armorVars.names[currentSettings.shirtOption] == 'extra')
-      shirtPalette = new Array(config.extraArmorColor[currentSettings.shirtColor]);
+    let shirtPalette = [];
+    if (armorVars.names[currentSettings.shirtOption] === 'extra')
+      shirtPalette = [config.extraArmorColor[currentSettings.shirtColor]];
     else if (armorVars.names[currentSettings.shirtOption] != null)
-      shirtPalette = new Array(armorVars.armorColors[currentSettings.shirtColor]);
+      shirtPalette = [armorVars.armorColors[currentSettings.shirtColor]];
 
-    if (armorVars.names[currentSettings.pantsOption] == 'extra')
-      pantsPalette = new Array(config.extraArmorColor[currentSettings.pantsColor]);
+    let pantsPalette = [];
+    if (armorVars.names[currentSettings.pantsOption] === 'extra')
+      pantsPalette = [config.extraArmorColor[currentSettings.pantsColor]];
     else if (armorVars.names[currentSettings.pantsOption] != null)
-      pantsPalette = new Array(armorVars.armorColors[currentSettings.pantsColor]);
+      pantsPalette = [armorVars.armorColors[currentSettings.pantsColor]];
 
-    if (helmetArmorSheet != null && currentSettings.helmetOption != currentSettings.helmetOptionMax)
-      helmetPalette = new Array(config.extraArmorColor[currentSettings.helmetOption]);
+    let helmetPalette = [];
+    if (helmetArmorSheet != null && currentSettings.helmetOption !== currentSettings.helmetOptionMax)
+      helmetPalette = [config.extraArmorColor[currentSettings.helmetOption]];
 
     // Offset certain sprites by gender - ie pants and shirt
-    var genderOffset = currentSettings.gender == 'male' ? 0 : 1;
-    var hairOffset = speciesVars.genders[currentSettings.gender].hair.offsetY;
-    var headOffset = speciesVars.genders[currentSettings.gender].facialHair.offsetY;
-    var altOffset = speciesVars.genders[currentSettings.gender].facialMask.offsetY;
+    const genderOffset = currentSettings.gender === 'male' ? 0 : 1;
+    const hairOffset = speciesVars.genders[currentSettings.gender].hair.offsetY;
+    const headOffset = speciesVars.genders[currentSettings.gender].facialHair.offsetY;
+    const altOffset = speciesVars.genders[currentSettings.gender].facialMask.offsetY;
 
     // Pose config
-    var poseConfig = config.poses[currentSettings.poseOption];
+    const poseConfig = config.poses[currentSettings.poseOption];
 
     // Paint erryting!
     // Back Arm
@@ -161,7 +159,7 @@ export class Painter {
       );
 
     // Hair
-    if (helmetArmorSheet == null || currentSettings.helmetOption == currentSettings.helmetOptionMax - 1)
+    if (helmetArmorSheet == null || currentSettings.helmetOption === currentSettings.helmetOptionMax - 1)
       this.paintToCanvas(
         accessorySheet,
         currentSettings.hairOption,
@@ -236,8 +234,8 @@ export class Painter {
       );
   }
 
-  paintToCanvas(sheet, offsetX, offsetY, nudgeX, nudgeY, paletteSwaps) {
-    var tempCtx = this.tempCanvas.getContext('2d');
+  paintToCanvas(sheet, offsetX, offsetY, nudgeX, nudgeY, paletteSwaps = []) {
+    const tempCtx = this.tempCanvas.getContext('2d');
 
     // Make sure to wrap too large offsetXs
     while (offsetX > 21) {
@@ -249,27 +247,27 @@ export class Painter {
     tempCtx.clearRect(0, 0, this.SPRITE_SIZE, this.SPRITE_SIZE);
     tempCtx.drawImage(sheet, -offsetX * this.SPRITE_SIZE, -offsetY * this.SPRITE_SIZE);
 
-    var imageData = tempCtx.getImageData(0, 0, this.SPRITE_SIZE, this.SPRITE_SIZE).data;
+    const imageData = tempCtx.getImageData(0, 0, this.SPRITE_SIZE, this.SPRITE_SIZE).data;
 
     // Go through each pixel in data
-    var px = this.SPRITE_SIZE * this.SPRITE_SIZE;
-    var posX = this.SPRITE_SIZE - 1,
+    let px = this.SPRITE_SIZE * this.SPRITE_SIZE;
+    let posX = this.SPRITE_SIZE - 1,
       posY = this.SPRITE_SIZE - 1;
 
     while (px--) {
-      if (imageData[4 * px + 3] != 0) {
-        var colorHex = this.rgbToHex(imageData[4 * px], imageData[4 * px + 1], imageData[4 * px + 2]);
+      if (imageData[4 * px + 3] !== 0) {
+        let colorHex = this.rgbToHex(imageData[4 * px], imageData[4 * px + 1], imageData[4 * px + 2]);
 
-        for (let swap in paletteSwaps) {
-          for (let color in paletteSwaps[swap]) {
-            if (color == colorHex) {
-              colorHex = paletteSwaps[swap][color];
+        for (const swap of paletteSwaps) {
+          for (const color in swap) {
+            if (color === colorHex) {
+              colorHex = swap[color];
             }
           }
         }
 
-        this.CONTEXT.fillStyle = '#' + colorHex;
-        this.CONTEXT.strokeStyle = '#' + colorHex;
+        this.CONTEXT.fillStyle = `#${colorHex}`;
+        this.CONTEXT.strokeStyle = `#${colorHex}`;
 
         this.CONTEXT.fillRect(
           (posX + nudgeX) * this.PREVIEW_MULTI,
@@ -287,18 +285,11 @@ export class Painter {
     }
   }
 
-  paintWithMask(sheet, offsetX, offsetY, nudgeX, nudgeY, paletteSwaps, mask) {
+  paintWithMask(sheet, offsetX, offsetY, nudgeX, nudgeY, paletteSwaps = [], mask) {
     console.log(
-      'Painting sprite with mask at ' +
-        offsetX * this.SPRITE_SIZE +
-        ',' +
-        offsetY * this.SPRITE_SIZE +
-        ' with ' +
-        paletteSwaps.length +
-        ' swaps, of sheet ' +
-        sheet.src
+      `Painting sprite with mask at ${offsetX * this.SPRITE_SIZE},${offsetY * this.SPRITE_SIZE} with ${paletteSwaps.length} swaps, of sheet ${sheet.src}`
     );
-    var tempCtx = this.tempCanvas.getContext('2d');
+    const tempCtx = this.tempCanvas.getContext('2d');
 
     // Make sure to wrap too large offsetXs
     while (offsetX > 21) {
@@ -310,32 +301,32 @@ export class Painter {
     tempCtx.clearRect(0, 0, this.SPRITE_SIZE, this.SPRITE_SIZE);
     tempCtx.drawImage(mask, 0, 0);
 
-    var maskData = tempCtx.getImageData(0, 0, this.SPRITE_SIZE, this.SPRITE_SIZE).data;
+    const maskData = tempCtx.getImageData(0, 0, this.SPRITE_SIZE, this.SPRITE_SIZE).data;
 
     // Clear out the temp canvas and splot our basic sheet onto it
     tempCtx.clearRect(0, 0, this.SPRITE_SIZE, this.SPRITE_SIZE);
     tempCtx.drawImage(sheet, -offsetX * this.SPRITE_SIZE, -offsetY * this.SPRITE_SIZE);
 
-    var imageData = tempCtx.getImageData(0, 0, this.SPRITE_SIZE, this.SPRITE_SIZE).data;
+    const imageData = tempCtx.getImageData(0, 0, this.SPRITE_SIZE, this.SPRITE_SIZE).data;
 
     // Go through each pixel in data
-    var px = this.SPRITE_SIZE * this.SPRITE_SIZE;
-    var posX = this.SPRITE_SIZE - 1,
+    let px = this.SPRITE_SIZE * this.SPRITE_SIZE;
+    let posX = this.SPRITE_SIZE - 1,
       posY = this.SPRITE_SIZE - 1;
 
     while (px--) {
-      if (imageData[4 * px + 3] != 0 && maskData[4 * px] == 255) {
-        var colorHex = this.rgbToHex(imageData[4 * px], imageData[4 * px + 1], imageData[4 * px + 2]);
-        for (let swap in paletteSwaps) {
-          for (let color in paletteSwaps[swap]) {
-            if (color == colorHex) {
-              colorHex = paletteSwaps[swap][color];
+      if (imageData[4 * px + 3] !== 0 && maskData[4 * px] === 255) {
+        let colorHex = this.rgbToHex(imageData[4 * px], imageData[4 * px + 1], imageData[4 * px + 2]);
+        for (const swap of paletteSwaps) {
+          for (const color in swap) {
+            if (color === colorHex) {
+              colorHex = swap[color];
             }
           }
         }
 
-        this.CONTEXT.fillStyle = '#' + colorHex;
-        this.CONTEXT.strokeStyle = '#' + colorHex;
+        this.CONTEXT.fillStyle = `#${colorHex}`;
+        this.CONTEXT.strokeStyle = `#${colorHex}`;
 
         this.CONTEXT.fillRect(
           (posX + nudgeX) * this.PREVIEW_MULTI,
@@ -354,14 +345,14 @@ export class Painter {
   }
 
   rgbToHex(r, g, b) {
-    var rs = r.toString(16);
-    if (rs.length == 1) rs = '0' + rs;
+    let rs = r.toString(16);
+    if (rs.length === 1) rs = '0' + rs;
 
-    var gs = g.toString(16);
-    if (gs.length == 1) gs = '0' + gs;
+    let gs = g.toString(16);
+    if (gs.length === 1) gs = '0' + gs;
 
-    var bs = b.toString(16);
-    if (bs.length == 1) bs = '0' + bs;
+    let bs = b.toString(16);
+    if (bs.length === 1) bs = '0' + bs;
 
     return rs + gs + bs;
   }

@@ -71,8 +71,6 @@ export class CharacterGenerator {
     document.getElementById('nameInput').addEventListener('blur', () => {
       this.checkName();
     });
-
-    document.onselectstart = () => false;
   }
 
   loadData(data) {
@@ -229,7 +227,7 @@ export class CharacterGenerator {
 
     if (this.warpCurrentFrame == this.warpFrames - 1) this.painter.repaint(this.config, this.currentSettings, this.imageInfo);
 
-    this.painter.paintToCanvas(this.imageInfo['warpIn'], this.warpCurrentFrame, 0, 0, 0, null, this.painter.bodyCanvas);
+    this.painter.paintToCanvas(this.imageInfo['warpIn'], this.warpCurrentFrame, 0, 0, 0);
     this.warpCurrentFrame++;
 
     if (this.warpCurrentFrame == this.warpFrames) {
