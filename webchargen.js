@@ -116,6 +116,22 @@ function preLoad() {
   for (let r in config.species) {
     if (r.charAt(0) == '_') continue;
 
+    // Prefetch male head sheet
+    let headMaleImg = new Image();
+    headMaleImg.src = `images/sheets/${r}/head-male.png`;
+    headMaleImg.onload = function () {
+      incPercentLoaded();
+    };
+    imageInfo[`${r}-head-male`] = headMaleImg;
+
+    // Prefetch female head sheet
+    let headFemaleImg = new Image();
+    headFemaleImg.src = `images/sheets/${r}/head-female.png`;
+    headFemaleImg.onload = function () {
+      incPercentLoaded();
+    };
+    imageInfo[`${r}-head-female`] = headFemaleImg;
+
     // Prefetch male body sheet
     let bodyMaleImg = new Image();
     bodyMaleImg.src = `images/sheets/${r}/body-male.png`;

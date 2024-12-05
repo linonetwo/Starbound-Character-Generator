@@ -569,7 +569,7 @@
         ]
       }
     },
-    "robot": {
+    "glitch": {
       "variables": {
         "altOptionAsUndyColor": true,
         "altOptionAsFacialMask": false,

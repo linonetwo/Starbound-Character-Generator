@@ -24,7 +24,8 @@ export class Painter {
     var speciesVars = config.species[currentSettings.species].variables;
     var armorVars = config.species[currentSettings.species].armors;
 
-    // Determine the three sheets we need - body parts, shirt and pants
+    // Determine the four sheets we need - head, body parts, shirt and pants
+    var headSheet = imageInfo[currentSettings.species + '-head-' + currentSettings.gender];
     var bodySheet = imageInfo[currentSettings.species + '-body-' + currentSettings.gender];
     var accessorySheet = imageInfo[currentSettings.species + '-body-accessory'];
     var frontArmSheet = imageInfo[currentSettings.species + '-body-frontArm'];
@@ -122,6 +123,16 @@ export class Painter {
       bodySheet,
       poseConfig.bodyIndex[0],
       poseConfig.bodyIndex[1],
+      0,
+      0,
+      bodyPalettes
+    );
+
+    // Head
+    this.paintToCanvas(
+      headSheet,
+      1,
+      0,
       0,
       0,
       bodyPalettes
