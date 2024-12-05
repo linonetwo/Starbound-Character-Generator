@@ -239,6 +239,12 @@ function preLoad() {
 // Use entire function to increment one number. Like a boss.
 function incPercentLoaded() {
   itemsLoaded++;
+  updateLoadingText();
+}
+
+function updateLoadingText() {
+  let percentLoaded = (itemsLoaded / itemsToLoad) * 100;
+  document.getElementById('loading-text').innerHTML = `Loading...<br>${percentLoaded.toFixed(4)}%`;
 }
 
 // Poll our completion status, make everything ready once we're all set
@@ -246,7 +252,7 @@ function loadingLoop() {
   let percentLoaded = (itemsLoaded / itemsToLoad) * 100;
 
   if (percentLoaded < 100) {
-    document.getElementById('loading-text').innerHTML = `Loading...<br>${percentLoaded.toFixed(4)}%`;
+    updateLoadingText();
   } else {
     console.log('Image prefetch loop stopped.');
     clearInterval(loopID);
