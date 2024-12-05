@@ -61,7 +61,6 @@ class Painter {
       helmetArmorSheet = imageInfo['extra-helmet'];
       helmetMaskSheet = imageInfo['extra-mask'];
     }
-    //console.log( "Selecting sheets " + bodySheet.src + ", " + shirtArmorSheet.src + ", " + pantsArmorSheet.src );
 
     // Which palette swaps should be used varies with species, set them up here
     var bodyPalettes, hairPalette, shirtPalette, pantsPalette, helmetPalette;
@@ -253,7 +252,6 @@ class Painter {
   }
 
   paintToCanvas(sheet, offsetX, offsetY, nudgeX, nudgeY, paletteSwaps, tempCanvas) {
-    //console.log( "Painting sprite at " + offsetX * this.SPRITE_SIZE + "," + offsetY * this.SPRITE_SIZE + " with " + paletteSwaps.length + " swaps, of sheet " + sheet.src );
     var tempCtx = tempCanvas.getContext('2d');
 
     // Make sure to wrap too large offsetXs
@@ -274,17 +272,12 @@ class Painter {
       posY = this.SPRITE_SIZE - 1;
 
     while (px--) {
-      //console.log( "Painting pixel " + px + " (" + posX + "," + posY + ")" );
       if (imageData[4 * px + 3] != 0) {
         var colorHex = this.rgbToHex(imageData[4 * px], imageData[4 * px + 1], imageData[4 * px + 2]);
 
-        //for ( var swap = 0; swap < paletteSwaps.length; swap++ )
         for (let swap in paletteSwaps) {
-          //console.log( paletteSwaps[swap] );
           for (let color in paletteSwaps[swap]) {
             if (color == colorHex) {
-              //for ( var swap2 = 0; swap2 < paletteSwaps[swap].length; swap2++ )
-              //console.log( "	Translating " + colorHex + " to " + paletteSwaps[swap][color] );
               colorHex = paletteSwaps[swap][color];
             }
           }
@@ -294,9 +287,6 @@ class Painter {
         this.CONTEXT.strokeStyle = '#' + colorHex;
         tempCtx.fillStyle = '#' + colorHex;
         tempCtx.strokeStyle = '#' + colorHex;
-
-        //tempCtx.clearRect( posX, posY, 1, 1 );
-        //tempCtx.fillRect( posX + nudgeX, posY + nudgeY, 1, 1 );
 
         this.CONTEXT.fillRect(
           (posX + nudgeX) * this.PREVIEW_MULTI,
@@ -351,17 +341,11 @@ class Painter {
       posY = this.SPRITE_SIZE - 1;
 
     while (px--) {
-      //console.log( "Painting pixel " + px + " (" + posX + "," + posY + ")" );
       if (imageData[4 * px + 3] != 0 && maskData[4 * px] == 255) {
         var colorHex = this.rgbToHex(imageData[4 * px], imageData[4 * px + 1], imageData[4 * px + 2]);
-
-        //for ( var swap = 0; swap < paletteSwaps.length; swap++ )
         for (let swap in paletteSwaps) {
-          //console.log( paletteSwaps[swap] );
           for (let color in paletteSwaps[swap]) {
             if (color == colorHex) {
-              //for ( var swap2 = 0; swap2 < paletteSwaps[swap].length; swap2++ )
-              //console.log( "	Translating " + colorHex + " to " + paletteSwaps[swap][color] );
               colorHex = paletteSwaps[swap][color];
             }
           }
@@ -371,9 +355,6 @@ class Painter {
         this.CONTEXT.strokeStyle = '#' + colorHex;
         tempCtx.fillStyle = '#' + colorHex;
         tempCtx.strokeStyle = '#' + colorHex;
-
-        //tempCtx.clearRect( posX, posY, 1, 1 );
-        //tempCtx.fillRect( posX + nudgeX, posY + nudgeY, 1, 1 );
 
         this.CONTEXT.fillRect(
           (posX + nudgeX) * this.PREVIEW_MULTI,
