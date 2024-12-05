@@ -1,5 +1,8 @@
 'use strict';
 
+import { Settings } from './settings.js';
+import { Painter } from './painter.js';
+
 let config;
 
 let painter;

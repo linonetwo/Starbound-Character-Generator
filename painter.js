@@ -1,4 +1,4 @@
-class Painter {
+export class Painter {
   constructor(canvas) {
     this.SPRITE_SIZE = 43;
     this.PREVIEW_MULTI = 3;

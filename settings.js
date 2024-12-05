@@ -4,7 +4,7 @@
 	and updates counters to display the correct number.
 	*/
 
-class Settings {
+export class Settings {
   constructor() {
     this.species = 'human';
     this.gender = 'male';
