@@ -1,23 +1,93 @@
+/**
+ * @typedef {Object} ImageInfo
+ * @property {HTMLImageElement} [key: string]
+ */
+
 import { Settings } from './settings.mjs';
 import { Painter } from './painter.mjs';
 
 export class CharacterGenerator {
-  constructor() {
-    this.config = null;
-    this.painter = null;
-    this.currentSettings = null;
-    this.imageInfo = {};
-    this.itemsToLoad = 0;
-    this.itemsLoaded = 0;
-    this.percentLoaded = 0.0;
-    this.fadeDelay = 200;
-    this.fadeStyle = 'fast';
-    this.loopID = null;
-    this.warpFrames = 16;
-    this.warpCurrentFrame = 0;
-    this.warpInterval = 50;
-  }
+  /**
+   * Configuration data
+   * @type {Object|null}
+   */
+  config = null;
 
+  /**
+   * Painter instance
+   * @type {Painter|null}
+   */
+  painter = null;
+
+  /**
+   * Current settings
+   * @type {Settings|null}
+   */
+  currentSettings = null;
+
+  /**
+   * Information about loaded images
+   * @type {ImageInfo}
+   */
+  imageInfo = {};
+
+  /**
+   * Total number of items to load
+   * @type {number}
+   */
+  itemsToLoad = 0;
+
+  /**
+   * Number of items loaded
+   * @type {number}
+   */
+  itemsLoaded = 0;
+
+  /**
+   * Percentage of items loaded
+   * @type {number}
+   */
+  percentLoaded = 0.0;
+
+  /**
+   * Fade delay in milliseconds
+   * @type {number}
+   */
+  fadeDelay = 200;
+
+  /**
+   * Fade style
+   * @type {string}
+   */
+  fadeStyle = 'fast';
+
+  /**
+   * ID of the loop interval
+   * @type {number|null}
+   */
+  loopID = null;
+
+  /**
+   * Number of warp frames
+   * @type {number}
+   */
+  warpFrames = 16;
+
+  /**
+   * Current warp frame
+   * @type {number}
+   */
+  warpCurrentFrame = 0;
+
+  /**
+   * Warp interval in milliseconds
+   * @type {number}
+   */
+  warpInterval = 50;
+
+  /**
+   * Initialization method
+   */
   init() {
     this.currentSettings = new Settings();
     this.currentSettings.updateCounters();
@@ -73,6 +143,10 @@ export class CharacterGenerator {
     });
   }
 
+  /**
+   * Load configuration data
+   * @param {Object} data
+   */
   loadData(data) {
     this.config = data;
     console.log(`Loaded data with ${Object.keys(this.config).length} root nodes`);
@@ -83,6 +157,9 @@ export class CharacterGenerator {
     console.log('Hi mom');
   }
 
+  /**
+   * Preload images
+   */
   preLoad() {
     for (let t in this.config.sharedOptions) {
       let textImg = new Image();
@@ -191,16 +268,25 @@ export class CharacterGenerator {
     this.itemsToLoad++;
   }
 
+  /**
+   * Increment the count of loaded items
+   */
   incPercentLoaded() {
     this.itemsLoaded++;
     this.updateLoadingText();
   }
 
+  /**
+   * Update the loading text
+   */
   updateLoadingText() {
     let percentLoaded = (this.itemsLoaded / this.itemsToLoad) * 100;
     document.getElementById('loading-text').innerHTML = `Loading...<br>${percentLoaded.toFixed(4)}%`;
   }
 
+  /**
+   * Loading loop
+   */
   loadingLoop() {
     let percentLoaded = (this.itemsLoaded / this.itemsToLoad) * 100;
 
@@ -217,6 +303,9 @@ export class CharacterGenerator {
     }
   }
 
+  /**
+   * Play warp animation
+   */
   playWarp() {
     this.painter.CONTEXT.clearRect(
       0,
@@ -236,6 +325,9 @@ export class CharacterGenerator {
     }
   }
 
+  /**
+   * Set option text
+   */
   setOptionText() {
     const container = document.getElementById('character-options-container');
     Array.from(container.children).forEach((child, index) => {
@@ -249,6 +341,9 @@ export class CharacterGenerator {
     });
   }
 
+  /**
+   * Clear selection
+   */
   clickyDeselection() {
     if (window.getSelection) {
       if (window.getSelection().empty) window.getSelection().empty();
@@ -258,6 +353,10 @@ export class CharacterGenerator {
     }
   }
 
+  /**
+   * Handle big button click event
+   * @param {HTMLElement} obj
+   */
   bigButtonClick(obj) {
     if (obj.classList.contains('disabled')) {
       return true;
@@ -305,6 +404,10 @@ export class CharacterGenerator {
     this.painter.repaint(this.config, this.currentSettings, this.imageInfo);
   }
 
+  /**
+   * Handle little button click event
+   * @param {HTMLElement} obj
+   */
   littleButtonClick(obj) {
     console.log('Clicked widdle button');
 
@@ -330,6 +433,9 @@ export class CharacterGenerator {
     this.painter.repaint(this.config, this.currentSettings, this.imageInfo);
   }
 
+  /**
+   * Handle randomize button click event
+   */
   randomizeButtonClick() {
     this.currentSettings.randomize();
 
@@ -338,11 +444,17 @@ export class CharacterGenerator {
     this.painter.repaint(this.config, this.currentSettings, this.imageInfo);
   }
 
+  /**
+   * Save the generated image
+   */
   saveImage() {
     let img = document.getElementById('character-preview').toDataURL('image/png');
     window.location.href = img.replace('image/png', 'image/octet-stream');
   }
 
+  /**
+   * Check the entered name
+   */
   checkName() {
     this.currentSettings.setName(document.getElementById('nameInput').value);
   }

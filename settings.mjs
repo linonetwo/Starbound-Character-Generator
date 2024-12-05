@@ -5,6 +5,42 @@
 	*/
 
 export class Settings {
+  /**
+   * @property {string} species - The species of the character.
+   * @property {string} gender - The gender of the character.
+   * @property {string} name - The name of the character.
+   * @property {Array<string>} randomizeOptions - The options that can be randomized.
+   * @property {number} skinColor - The skin color index.
+   * @property {number} altOption - The alternate option index.
+   * @property {number} hairOption - The hair option index.
+   * @property {number} headOption - The head option index.
+   * @property {number} shirtOption - The shirt option index.
+   * @property {number} shirtColor - The shirt color index.
+   * @property {number} pantsOption - The pants option index.
+   * @property {number} pantsColor - The pants color index.
+   * @property {number} helmetOption - The helmet option index.
+   * @property {number} poseOption - The pose option index.
+   * @property {number} skinColorMax - The maximum skin color index.
+   * @property {number} altOptionMax - The maximum alternate option index.
+   * @property {number} hairOptionMax - The maximum hair option index.
+   * @property {number} headOptionMax - The maximum head option index.
+   * @property {number} shirtOptionMax - The maximum shirt option index.
+   * @property {number} shirtColorMax - The maximum shirt color index.
+   * @property {number} pantsOptionMax - The maximum pants option index.
+   * @property {number} pantsColorMax - The maximum pants color index.
+   * @property {number} helmetOptionMax - The maximum helmet option index.
+   * @property {number} poseOptionMax - The maximum pose option index.
+   * @property {NodeListOf<Element>} skinColorCounter - The skin color counter elements.
+   * @property {NodeListOf<Element>} altOptionCounter - The alternate option counter elements.
+   * @property {NodeListOf<Element>} hairOptionCounter - The hair option counter elements.
+   * @property {NodeListOf<Element>} headOptionCounter - The head option counter elements.
+   * @property {NodeListOf<Element>} shirtOptionCounter - The shirt option counter elements.
+   * @property {NodeListOf<Element>} shirtColorCounter - The shirt color counter elements.
+   * @property {NodeListOf<Element>} pantsOptionCounter - The pants option counter elements.
+   * @property {NodeListOf<Element>} pantsColorCounter - The pants color counter elements.
+   * @property {NodeListOf<Element>} helmetOptionCounter - The helmet option counter elements.
+   * @property {NodeListOf<Element>} poseOptionCounter - The pose option counter elements.
+   */
   constructor() {
     this.species = 'human';
     this.gender = 'male';
@@ -60,6 +96,9 @@ export class Settings {
     this.poseOptionCounter = document.querySelectorAll('#variable-poseOption .option-buttons .option-counter > *');
   }
 
+  /**
+   * Updates the counters for the current settings.
+   */
   updateCounters() {
     // Skin color
     let skinTemp = (this.skinColor + 1) % 10;
@@ -112,6 +151,10 @@ export class Settings {
     this.helmetOptionCounter[1].style.backgroundPosition = `-${helmetTemp * 10}px 0px`;
   }
 
+  /**
+   * Resets the settings.
+   * @param {boolean} species - Whether to reset species-related options.
+   */
   reset(species) {
     // Reset as few options as we have to, to preserve state
     if (species) {
@@ -124,6 +167,10 @@ export class Settings {
     // Remaining options will be capped by recalc
   }
 
+  /**
+   * Recalculates the maximum values for the settings based on the configuration.
+   * @param {Object} config - The configuration object.
+   */
   recalc(config) {
     let vars = config.species[this.species].variables;
     let armors = config.species[this.species].armors;
@@ -175,6 +222,9 @@ export class Settings {
     }
   }
 
+  /**
+   * Randomizes the settings.
+   */
   randomize() {
     console.log('Randomizing options');
     for (let optName of this.randomizeOptions) {
@@ -197,6 +247,10 @@ export class Settings {
     if (this.helmetOptionMax > 0 && Math.random() < 0.8) this.helmetOption = this.helmetOptionMax - 1;
   }
 
+  /**
+   * Sets the name of the character.
+   * @param {string} name - The name to set.
+   */
   setName(name) {
     if (this.name === name) return;
 
@@ -207,6 +261,10 @@ export class Settings {
       .then((data) => currentSettings.checkName(data));
   }
 
+  /**
+   * Converts the settings to a string representation.
+   * @returns {string} The string representation of the settings.
+   */
   toString() {
     return (
       'Settings[species=' +
@@ -257,6 +315,10 @@ export class Settings {
     );
   }
 
+  /**
+   * Checks the name of the character against the provided data.
+   * @param {Object} data - The data to check against.
+   */
   checkName(data) {
     if (!data || !data.armorColor) return;
 
@@ -294,6 +356,11 @@ export class Settings {
   }
 }
 
+/**
+ * Converts a string to a hash.
+ * @param {string} string - The string to hash.
+ * @returns {string} The hash of the string.
+ */
 function toHash(string) {
   let hash = 17;
 

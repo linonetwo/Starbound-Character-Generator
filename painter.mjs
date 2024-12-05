@@ -1,3 +1,5 @@
+import { Settings } from './settings.mjs';
+
 export class Painter {
   constructor(canvas) {
     this.SPRITE_SIZE = 43;
@@ -14,6 +16,12 @@ export class Painter {
     this.tempCanvas.style.display = 'none';
   }
 
+  /**
+   * Repaints the canvas with the given configuration, settings, and image information.
+   * @param {Object} config - The configuration object.
+   * @param {Settings} currentSettings - The current settings object.
+   * @param {Object} imageInfo - The image information object.
+   */
   repaint(config, currentSettings, imageInfo) {
     console.log(`Painting sprite with ${Object.keys(config).length}, ${currentSettings.toString()}`);
 
@@ -234,6 +242,15 @@ export class Painter {
       );
   }
 
+  /**
+   * Paints a sprite sheet onto the canvas with optional palette swaps.
+   * @param {HTMLImageElement} sheet - The sprite sheet image.
+   * @param {number} offsetX - The x offset in the sprite sheet.
+   * @param {number} offsetY - The y offset in the sprite sheet.
+   * @param {number} nudgeX - The x nudge for positioning.
+   * @param {number} nudgeY - The y nudge for positioning.
+   * @param {Array<Object>} [paletteSwaps=[]] - The palette swaps to apply.
+   */
   paintToCanvas(sheet, offsetX, offsetY, nudgeX, nudgeY, paletteSwaps = []) {
     const tempCtx = this.tempCanvas.getContext('2d');
 
@@ -285,6 +302,16 @@ export class Painter {
     }
   }
 
+  /**
+   * Paints a sprite sheet onto the canvas with a mask and optional palette swaps.
+   * @param {HTMLImageElement} sheet - The sprite sheet image.
+   * @param {number} offsetX - The x offset in the sprite sheet.
+   * @param {number} offsetY - The y offset in the sprite sheet.
+   * @param {number} nudgeX - The x nudge for positioning.
+   * @param {number} nudgeY - The y nudge for positioning.
+   * @param {Array<Object>} [paletteSwaps=[]] - The palette swaps to apply.
+   * @param {HTMLImageElement} mask - The mask image.
+   */
   paintWithMask(sheet, offsetX, offsetY, nudgeX, nudgeY, paletteSwaps = [], mask) {
     console.log(
       `Painting sprite with mask at ${offsetX * this.SPRITE_SIZE},${offsetY * this.SPRITE_SIZE} with ${paletteSwaps.length} swaps, of sheet ${sheet.src}`
@@ -344,6 +371,13 @@ export class Painter {
     }
   }
 
+  /**
+   * Converts RGB values to a hexadecimal color string.
+   * @param {number} r - The red component (0-255).
+   * @param {number} g - The green component (0-255).
+   * @param {number} b - The blue component (0-255).
+   * @returns {string} The hexadecimal color string.
+   */
   rgbToHex(r, g, b) {
     let rs = r.toString(16);
     if (rs.length === 1) rs = '0' + rs;
