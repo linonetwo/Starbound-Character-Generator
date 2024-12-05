@@ -15,7 +15,7 @@ export class Painter {
   }
 
   repaint(config, currentSettings, imageInfo) {
-    console.log('Painting sprite with ' + Object.size(config) + ', ' + currentSettings.toString());
+    console.log('Painting sprite with ' + Object.keys(config).length + ', ' + currentSettings.toString());
 
     // Clean up old gunk
     this.CONTEXT.clearRect(0, 0, this.SPRITE_SIZE * this.PREVIEW_MULTI, this.SPRITE_SIZE * this.PREVIEW_MULTI);
