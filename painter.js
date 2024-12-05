@@ -8,17 +8,10 @@ export class Painter {
 
     if (canvas.getContext) this.CONTEXT = canvas.getContext('2d');
 
-    this.backArmCanvas = document.getElementById('tempCanvas1');
-    this.backSleeveCanvas = document.getElementById('tempCanvas2');
-    this.hairCanvas = document.getElementById('tempCanvas3');
-    this.bodyCanvas = document.getElementById('tempCanvas4');
-    this.pantsCanvas = document.getElementById('tempCanvas5');
-    this.shirtCanvas = document.getElementById('tempCanvas6');
-    this.helmetCanvas = document.getElementById('tempCanvas7');
-    this.altCanvas = document.getElementById('tempCanvas8');
-    this.headCanvas = document.getElementById('tempCanvas9');
-    this.frontArmCanvas = document.getElementById('tempCanvas10');
-    this.frontSleeveCanvas = document.getElementById('tempCanvas11');
+    this.tempCanvas = document.createElement('canvas');
+    this.tempCanvas.width = this.SPRITE_SIZE;
+    this.tempCanvas.height = this.SPRITE_SIZE;
+    this.tempCanvas.style.display = 'none';
   }
 
   repaint(config, currentSettings, imageInfo) {
@@ -110,8 +103,7 @@ export class Painter {
       poseConfig.sleeveIndex[1],
       poseConfig.sleeveOffset[0],
       poseConfig.sleeveOffset[1],
-      bodyPalettes,
-      this.backArmCanvas
+      bodyPalettes
     );
 
     // Back Sleeve Armor
@@ -122,10 +114,8 @@ export class Painter {
         poseConfig.sleeveIndex[1],
         poseConfig.sleeveOffset[0],
         poseConfig.sleeveOffset[1],
-        shirtPalette,
-        this.backSleeveCanvas
+        shirtPalette
       );
-    else this.backSleeveCanvas.getContext('2d').clearRect(0, 0, this.SPRITE_SIZE, this.SPRITE_SIZE);
 
     // Body
     this.paintToCanvas(
@@ -134,8 +124,7 @@ export class Painter {
       poseConfig.bodyIndex[1],
       0,
       0,
-      bodyPalettes,
-      this.bodyCanvas
+      bodyPalettes
     );
 
     // Pants Armor
@@ -146,10 +135,8 @@ export class Painter {
         poseConfig.bodyIndex[1],
         0,
         0,
-        pantsPalette,
-        this.pantsCanvas
+        pantsPalette
       );
-    else this.pantsCanvas.getContext('2d').clearRect(0, 0, this.SPRITE_SIZE, this.SPRITE_SIZE);
 
     // Shirt Armor
     if (shirtArmorSheet != null)
@@ -159,10 +146,8 @@ export class Painter {
         poseConfig.chestIndex[1],
         poseConfig.chestOffset[0],
         poseConfig.chestOffset[1],
-        shirtPalette,
-        this.shirtCanvas
+        shirtPalette
       );
-    else this.shirtCanvas.getContext('2d').clearRect(0, 0, this.SPRITE_SIZE, this.SPRITE_SIZE);
 
     // Hair
     if (helmetArmorSheet == null || currentSettings.helmetOption == currentSettings.helmetOptionMax - 1)
@@ -172,10 +157,8 @@ export class Painter {
         hairOffset,
         poseConfig.hairOffset[0],
         poseConfig.hairOffset[1],
-        hairPalette,
-        this.hairCanvas
+        hairPalette
       );
-    //this.hairCanvas.getContext( "2d" ).clearRect( 0, 0, this.SPRITE_SIZE, this.SPRITE_SIZE );
     else
       this.paintWithMask(
         accessorySheet,
@@ -184,7 +167,6 @@ export class Painter {
         poseConfig.hairOffset[0],
         poseConfig.hairOffset[1],
         hairPalette,
-        this.hairCanvas,
         helmetMaskSheet
       );
 
@@ -196,10 +178,8 @@ export class Painter {
         headOffset,
         poseConfig.hairOffset[0],
         poseConfig.hairOffset[1],
-        bodyPalettes,
-        this.headCanvas
+        bodyPalettes
       );
-    else this.headCanvas.getContext('2d').clearRect(0, 0, this.SPRITE_SIZE, this.SPRITE_SIZE);
 
     // Alt
     if (speciesVars.altOptionAsFacialMask)
@@ -209,10 +189,8 @@ export class Painter {
         altOffset,
         poseConfig.hairOffset[0],
         poseConfig.hairOffset[1],
-        bodyPalettes,
-        this.altCanvas
+        bodyPalettes
       );
-    else this.altCanvas.getContext('2d').clearRect(0, 0, this.SPRITE_SIZE, this.SPRITE_SIZE);
 
     // Helmet
     if (helmetArmorSheet != null && currentSettings.helmetOption < currentSettings.helmetOptionMax - 1)
@@ -222,8 +200,7 @@ export class Painter {
         0,
         poseConfig.hairOffset[0],
         poseConfig.hairOffset[1],
-        helmetPalette,
-        this.helmetCanvas
+        helmetPalette
       );
 
     // Front Arm
@@ -233,8 +210,7 @@ export class Painter {
       poseConfig.sleeveIndex[1],
       poseConfig.sleeveOffset[0],
       poseConfig.sleeveOffset[1],
-      bodyPalettes,
-      this.frontArmCanvas
+      bodyPalettes
     );
 
     // Front Sleeve Armor
@@ -245,14 +221,12 @@ export class Painter {
         poseConfig.sleeveIndex[1],
         poseConfig.sleeveOffset[0],
         poseConfig.sleeveOffset[1],
-        shirtPalette,
-        this.frontSleeveCanvas
+        shirtPalette
       );
-    else this.frontSleeveCanvas.getContext('2d').clearRect(0, 0, this.SPRITE_SIZE, this.SPRITE_SIZE);
   }
 
-  paintToCanvas(sheet, offsetX, offsetY, nudgeX, nudgeY, paletteSwaps, tempCanvas) {
-    var tempCtx = tempCanvas.getContext('2d');
+  paintToCanvas(sheet, offsetX, offsetY, nudgeX, nudgeY, paletteSwaps) {
+    var tempCtx = this.tempCanvas.getContext('2d');
 
     // Make sure to wrap too large offsetXs
     while (offsetX > 21) {
@@ -285,8 +259,6 @@ export class Painter {
 
         this.CONTEXT.fillStyle = '#' + colorHex;
         this.CONTEXT.strokeStyle = '#' + colorHex;
-        tempCtx.fillStyle = '#' + colorHex;
-        tempCtx.strokeStyle = '#' + colorHex;
 
         this.CONTEXT.fillRect(
           (posX + nudgeX) * this.PREVIEW_MULTI,
@@ -304,7 +276,7 @@ export class Painter {
     }
   }
 
-  paintWithMask(sheet, offsetX, offsetY, nudgeX, nudgeY, paletteSwaps, tempCanvas, mask) {
+  paintWithMask(sheet, offsetX, offsetY, nudgeX, nudgeY, paletteSwaps, mask) {
     console.log(
       'Painting sprite with mask at ' +
         offsetX * this.SPRITE_SIZE +
@@ -315,7 +287,7 @@ export class Painter {
         ' swaps, of sheet ' +
         sheet.src
     );
-    var tempCtx = tempCanvas.getContext('2d');
+    var tempCtx = this.tempCanvas.getContext('2d');
 
     // Make sure to wrap too large offsetXs
     while (offsetX > 21) {
@@ -353,8 +325,6 @@ export class Painter {
 
         this.CONTEXT.fillStyle = '#' + colorHex;
         this.CONTEXT.strokeStyle = '#' + colorHex;
-        tempCtx.fillStyle = '#' + colorHex;
-        tempCtx.strokeStyle = '#' + colorHex;
 
         this.CONTEXT.fillRect(
           (posX + nudgeX) * this.PREVIEW_MULTI,
