@@ -133,8 +133,8 @@ export class Painter {
       headSheet,
       1,
       0,
-      0,
-      0,
+      poseConfig.hairOffset[0],
+      poseConfig.hairOffset[1],
       bodyPalettes
     );
 
